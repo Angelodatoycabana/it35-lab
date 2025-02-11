@@ -39,13 +39,16 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/it35-lab" component={Login} />
-        <Route exact path="/it35-lab/app" component={Menu} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+  <IonReactRouter>
+    <IonRouterOutlet>
+      <Route exact path="/it35-lab/home">
+        <Home />
+      </Route>
+      <Route exact path="/it35-lab/">
+        <Redirect to="/it35-lab/home" />
+      </Route>
+    </IonRouterOutlet>
+  </IonReactRouter>
 );
 
 export default App;
