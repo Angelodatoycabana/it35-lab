@@ -12,6 +12,7 @@ import {
 
 const Login: React.FC = () => {
   const navigation = useIonRouter();
+
   const doLogin = () => {
       navigation.push('/it35-lab/app','forward','replace');
   }
