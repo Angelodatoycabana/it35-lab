@@ -18,7 +18,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
+/**npm
  * Ionic Dark Mode
  * -----------------------------------------------------
  * For more info, please see:
@@ -40,8 +40,8 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-      <Route exact path="/it35-lab" component={Login} />
-      <Route path="/it35-lab/app" component={Menu} />
+        <Route exact path="/it35-lab" component={Login} />
+        <Route path="/it35-lab/app" component={Menu} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
