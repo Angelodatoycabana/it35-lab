@@ -1,70 +1,109 @@
-import React, { useEffect, useRef } from 'react';
-import {
+import { 
   IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonRouter,
-  IonCheckbox
+  IonContent, 
+  IonHeader, 
+  IonInput, 
+  IonItem, 
+  IonPage, 
+  IonTitle, 
+  IonToolbar, 
+  IonAlert,
+  useIonRouter
 } from '@ionic/react';
+import { useState } from 'react';
 
-import { personCircleOutline } from 'ionicons/icons';
-
-function Login() {
+const Login: React.FC = () => {
   const navigation = useIonRouter();
+  
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const user_email = "hehe@gmail.com";
+  const user_pdw = "useruser";
+
+ 
   const doLogin = () => {
-    navigation.push('/it35-lab/app', 'forward', 'replace');
+    if (email !== user_email || password !== user_pdw) {
+      setShowAlert(true); 
+      return;
+    } else {
+      console.log(email);
+      console.log(password);
+
+      setShowToast(true);
+      setTimeout(() => {
+       
+        navigation.push('/it35-lab/app', 'forward', 'replace');
+      }, 1500);
+    }
   };
-
-  const ref = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    ref.current?.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
-  }, [ref]);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonButtons slot='start'>
-            <IonMenuButton></IonMenuButton>
-          </IonButtons>
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <IonIcon icon={personCircleOutline} style={{ fontSize: '80px' }} />
-        </div>
+        
+       
         <IonItem>
-          <IonInput label='Username' placeholder='Enter Username'></IonInput>
+          <IonInput
+            label="Email"
+            labelPlacement="floating"
+            placeholder="Enter your email"
+            value={email}
+            onIonChange={(e) => setEmail(e.detail.value!)} // Update email state
+            required
+          />
         </IonItem>
+
         <IonItem>
-          <IonInput label='Password' type='password' placeholder='Enter Password'></IonInput>
+          <IonInput
+            label="Password"
+            labelPlacement="floating"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onIonChange={(e) => setPassword(e.detail.value!)} // Update password state
+            required
+          />
         </IonItem>
-        <IonItem>
-          <IonCheckbox>
-            I agree to the{' '}
-            <a href='#' ref={ref}>
-              terms and conditions
-            </a>
-          </IonCheckbox>
-        </IonItem>
-        <IonButton onClick={() => doLogin()} expand='full'>
+
+       
+        <IonButton onClick={doLogin} expand="full">
           Login
         </IonButton>
+
+       
+        {showAlert && (
+          <IonAlert
+            isOpen={showAlert}
+            onDidDismiss={() => setShowAlert(false)}
+            header="Login Failed"
+            message="Incorrect email or password. Please try again."
+            buttons={['OK']}
+          />
+        )}
+
+     
+        {showToast && (
+          <IonAlert
+            isOpen={showToast}
+            onDidDismiss={() => setShowToast(false)}
+            header="Login Successful"
+            message="Redirecting to the app..."
+            buttons={['OK']}
+          />
+        )}
+        
       </IonContent>
     </IonPage>
   );
-}
+};
 
 export default Login;
