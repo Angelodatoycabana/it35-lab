@@ -1,109 +1,84 @@
+import React, { useState } from 'react';
 import { 
-  IonButton,
-  IonContent, 
-  IonHeader, 
-  IonInput, 
-  IonItem, 
-  IonPage, 
-  IonTitle, 
-  IonToolbar, 
-  IonAlert,
-  useIonRouter
+    IonButton,
+    IonContent, 
+    IonHeader, 
+    IonPage, 
+    IonTitle, 
+    IonToolbar, 
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonToast,
+    IonFooter
 } from '@ionic/react';
-import { useState } from 'react';
+import { useHistory } from 'react-router-dom'; 
 
 const Login: React.FC = () => {
-  const navigation = useIonRouter();
-  
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+    const history = useHistory();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
-  const user_email = "hehe@gmail.com";
-  const user_pdw = "useruser";
-
+    const doLogin = () => {
  
-  const doLogin = () => {
-    if (email !== user_email || password !== user_pdw) {
-      setShowAlert(true); 
-      return;
-    } else {
-      console.log(email);
-      console.log(password);
+        const storedUsername = localStorage.getItem('username');
+        const storedPassword = localStorage.getItem('password');
 
-      setShowToast(true);
-      setTimeout(() => {
-       
-        navigation.push('/it35-lab/app', 'forward', 'replace');
-      }, 1500);
-    }
-  };
 
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Login</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className='ion-padding'>
-        
-       
-        <IonItem>
-          <IonInput
-            label="Email"
-            labelPlacement="floating"
-            placeholder="Enter your email"
-            value={email}
-            onIonChange={(e) => setEmail(e.detail.value!)} // Update email state
-            required
-          />
-        </IonItem>
+        if (!storedUsername || !storedPassword) {
+            setToastMessage("No account found. Please register first.");
+            setShowToast(true);
+            return;
+        }
 
-        <IonItem>
-          <IonInput
-            label="Password"
-            labelPlacement="floating"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onIonChange={(e) => setPassword(e.detail.value!)} // Update password state
-            required
-          />
-        </IonItem>
+        if (username === storedUsername && password === storedPassword) {
+            setToastMessage("Login Successful!"); 
+            setShowToast(true); 
 
-       
-        <IonButton onClick={doLogin} expand="full">
-          Login
-        </IonButton>
+         
+            setTimeout(() => {
+                history.push('/it35-lab/app'); 
+            }, 2000); 
+        } else {
+            setToastMessage("Invalid username or password.");
+            setShowToast(true); 
+        }
+    };
 
-       
-        {showAlert && (
-          <IonAlert
-            isOpen={showAlert}
-            onDidDismiss={() => setShowAlert(false)}
-            header="Login Failed"
-            message="Incorrect email or password. Please try again."
-            buttons={['OK']}
-          />
-        )}
-
-     
-        {showToast && (
-          <IonAlert
-            isOpen={showToast}
-            onDidDismiss={() => setShowToast(false)}
-            header="Login Successful"
-            message="Redirecting to the app..."
-            buttons={['OK']}
-          />
-        )}
-        
-      </IonContent>
-    </IonPage>
-  );
+    return (
+        <IonPage>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>Login</IonTitle>
+                </IonToolbar>
+            </IonHeader>
+            <IonContent className='ion-padding'>
+                <IonList>
+                    <IonItem>
+                        <IonLabel position="floating">Username</IonLabel>
+                        <IonInput value={username} onIonChange={e => setUsername(e.detail.value!)} />
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel position="floating">Password</IonLabel>
+                        <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
+                    </IonItem>
+                </IonList>
+                <IonButton onClick={doLogin} expand="full">Login</IonButton>
+                <IonButton onClick={() => history.push('/signup')} expand="full" color="secondary">Register</IonButton> {}
+            </IonContent>
+            <IonFooter>
+                <IonToast
+                    isOpen={showToast}
+                    onDidDismiss={() => setShowToast(false)}
+                    message={toastMessage}
+                    duration={2000}
+                />
+            </IonFooter>
+        </IonPage>
+    );
 };
 
 export default Login;
