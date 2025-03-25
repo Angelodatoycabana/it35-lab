@@ -16,7 +16,6 @@ import {
     IonText
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
-
 const Signup: React.FC = () => {
     const history = useHistory();
     const [regUsername, setRegUsername] = useState('');
