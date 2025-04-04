@@ -14,37 +14,28 @@ import {
     IonFooter
 } from '@ionic/react';
 import { useHistory } from 'react-router-dom'; 
+import { supabase } from '../utils/supabaseClient';
 
 const Login: React.FC = () => {
     const history = useHistory();
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
-    const doLogin = () => {
- 
-        const storedUsername = localStorage.getItem('username');
-        const storedPassword = localStorage.getItem('password');
+    const doLogin = async () => {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-
-        if (!storedUsername || !storedPassword) {
-            setToastMessage("No account found. Please register first.");
+        if (error) {
+            setToastMessage(error.message);
             setShowToast(true);
-            return;
-        }
-
-        if (username === storedUsername && password === storedPassword) {
-            setToastMessage("Login Successful!"); 
-            setShowToast(true); 
-
-         
+        } else {
+            setToastMessage("Login Successful!");
+            setShowToast(true);
+            
             setTimeout(() => {
                 history.push('/it35-lab/app'); 
-            }, 2000); 
-        } else {
-            setToastMessage("Invalid username or password.");
-            setShowToast(true); 
+            }, 2000);
         }
     };
 
@@ -58,16 +49,24 @@ const Login: React.FC = () => {
             <IonContent className='ion-padding'>
                 <IonList>
                     <IonItem>
-                        <IonLabel position="floating">Username</IonLabel>
-                        <IonInput value={username} onIonChange={e => setUsername(e.detail.value!)} />
+                        <IonLabel position="floating">Email</IonLabel>
+                        <IonInput 
+                            type="email" 
+                            value={email} 
+                            onIonChange={e => setEmail(e.detail.value!)} 
+                        />
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Password</IonLabel>
-                        <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)} />
+                        <IonInput 
+                            type="password" 
+                            value={password} 
+                            onIonChange={e => setPassword(e.detail.value!)} 
+                        />
                     </IonItem>
                 </IonList>
                 <IonButton onClick={doLogin} expand="full">Login</IonButton>
-                <IonButton onClick={() => history.push('/signup')} expand="full" color="secondary">Register</IonButton> {}
+                <IonButton onClick={() => history.push('/signup')} expand="full" color="secondary">Register</IonButton>
             </IonContent>
             <IonFooter>
                 <IonToast
