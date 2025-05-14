@@ -17,8 +17,7 @@ import {
   IonChip,
   IonGrid,
   IonRow,
-  IonCol,
-  IonButton
+  IonCol
 } from '@ionic/react';
 import { 
   codeOutline,
@@ -29,11 +28,7 @@ import {
   bookOutline,
   schoolOutline,
   trophyOutline,
-  hardwareChipOutline,
-  mailOutline,
-  logoFacebook,
-  callOutline,
-  locationOutline
+  hardwareChipOutline
 } from 'ionicons/icons';
 
 const About: React.FC = () => {
@@ -73,15 +68,6 @@ const learningResources = [
   }
 ];
 
-// Personal contact information
-const contactInfo = {
-  email: "20221190@nbsc.edu.ph",
-  facebook: "https://www.facebook.com/Cabana.OhNana.11",
-  phone: "09972959221",
-  location: "Zone 3, Mantibugao, Manolo Fortich, Bukidnon",
-  locationUrl: "https://www.google.com/maps/search/?api=1&query=Zone+3+Mantibugao+Manolo+Fortich+Bukidnon"
-};
-
 return (
   <IonPage>
     <IonHeader>
@@ -93,59 +79,6 @@ return (
       </IonToolbar>
     </IonHeader>
     <IonContent fullscreen className="ion-padding">
-      {/* Contact Information Section */}
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>
-            Contact Information
-          </IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <IonList>
-            <IonItem>
-              <IonIcon icon={mailOutline} slot="start" color="primary" />
-              <IonLabel>
-                <h2>Email</h2>
-                <p>{contactInfo.email}</p>
-              </IonLabel>
-              <IonButton slot="end" href={`mailto:${contactInfo.email}`} fill="clear">
-                Contact
-              </IonButton>
-            </IonItem>
-            <IonItem>
-              <IonIcon icon={logoFacebook} slot="start" color="primary" />
-              <IonLabel>
-                <h2>Facebook</h2>
-                <p>{contactInfo.facebook}</p>
-              </IonLabel>
-              <IonButton slot="end" href={contactInfo.facebook} target="_blank" fill="clear">
-                Visit
-              </IonButton>
-            </IonItem>
-            <IonItem>
-              <IonIcon icon={callOutline} slot="start" color="primary" />
-              <IonLabel>
-                <h2>Phone</h2>
-                <p>{contactInfo.phone}</p>
-              </IonLabel>
-              <IonButton slot="end" href={`tel:${contactInfo.phone}`} fill="clear">
-                Call
-              </IonButton>
-            </IonItem>
-            <IonItem>
-              <IonIcon icon={locationOutline} slot="start" color="primary" />
-              <IonLabel>
-                <h2>Location</h2>
-                <p>{contactInfo.location}</p>
-              </IonLabel>
-              <IonButton slot="end" href={contactInfo.locationUrl} target="_blank" fill="clear">
-                Map
-              </IonButton>
-            </IonItem>
-          </IonList>
-        </IonCardContent>
-      </IonCard>
-
       {/* Technologies Section */}
       <IonCard>
         <IonCardHeader>
